@@ -6,7 +6,6 @@ axios.interceptors.request.use(
         return config
     },
     (error) => {
-        console.log(error, 'req');
         throw Error;
     }
 )
@@ -16,7 +15,6 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // Do something with response error
-    console.log(error, 'res')
     throw error
 });
 

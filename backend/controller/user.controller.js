@@ -40,8 +40,11 @@ const logIn = async (req, res) => {
     }
 }
 const getUsers = async (req, res) => {
-    const persons = await db.query(`SELECT * FROM person`)
-    res.json(persons)
+    const users = await db.query(`SELECT * FROM person`)
+    res.json({
+        items: users,
+        count: users.length
+    })
 }
 const getOneUser = async (req, res) => {
     const id = req.params.id

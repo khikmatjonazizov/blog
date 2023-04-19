@@ -2,7 +2,7 @@ import {Router} from "express";
 import userController from '../controller/user.controller.js';
 
 const router = Router();
-router.get('/users', userController.getUsers)
+router.get('/user', userController.getUsers)
     .get('/user/:id', userController.getOneUser)
     .post('/user', userController.createUser)
     .post('/user/login', userController.logIn)

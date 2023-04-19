@@ -1,20 +1,47 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./screens/Login";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+import { Provider } from "react-redux";
+import { store } from "./redux";
+import { Home } from "./screens/Home";
+import { NavBar } from "./components";
+import { Cabinet } from "./screens/Cabinet";
+import { HomeRoutes } from "./routes/HomeRoutes";
+
+const GlobalStyles = createGlobalStyle`
+  html {
+    height: 100%;
+  }
+
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #root {
+    height: 100%;
+  }
+`;
 
 const AppContainer = styled.div`
   max-width: 1100px;
   padding: 0 10px;
   margin: 0 auto;
+  height: 100%;
 `
 
 function App() {
     return (
         <AppContainer>
-            <Routes>
-                <Route path="/" element={<Login />} />
-            </Routes>
+            <Provider store={store}>
+                <GlobalStyles/>
+                <Routes>
+                    <Route path="/" element={<Login/>}/>
+                    <Route path="*" element={<HomeRoutes />}/>
+                </Routes>
+            </Provider>
         </AppContainer>
     );
 }
