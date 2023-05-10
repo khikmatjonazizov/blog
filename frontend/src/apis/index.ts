@@ -1,5 +1,7 @@
 import user from './user/user'
+import post from './post/post'
 
-export default {
+export default  {
     user,
+    post,
 }

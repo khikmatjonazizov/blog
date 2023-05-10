@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit
 import { LoginProps, LoginResponse, SignupProps, SignupResponse } from "../../apis/user";
 import { RootState } from "../index";
 import Apis from '../../apis'
-import { GetPostsResponseItem } from "../../apis/post";
+import {
+    CreatePostProps,
+    CreatePostResponse,
+    GetPostsProps,
+    GetPostsResponse,
+    GetPostsResponseItem
+} from "../../apis/post";
 
 type PostsType = {
     loading: boolean;
@@ -18,26 +24,26 @@ const initialState: PostsType = {
     count: 0,
 }
 
-export const login = createAsyncThunk<
-    LoginResponse,
-    LoginProps,
+export const getPosts = createAsyncThunk<
+    GetPostsResponse,
+    GetPostsProps,
     { state: RootState }
 >(
-    'login',
-    async (payload, thunkAPI) => {
-        const { data } = await Apis.user.login(payload)
+    'getPosts',
+    async (args) => {
+        const { data } = await Apis.post.getPosts(args)
         return data;
-    },
+    }
 )
 
-export const signup = createAsyncThunk<
-    SignupResponse,
-    SignupProps,
+export const createPost = createAsyncThunk<
+    CreatePostResponse,
+    CreatePostProps,
     { state: RootState }
 >(
-    'signup',
-    async (payload, thunkAPI) => {
-        const { data } = await Apis.user.signup(payload)
+    'createPost',
+    async (args) => {
+        const { data } = await Apis.post.createPost(args)
         return data;
     },
 )
@@ -47,29 +53,30 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(login.pending, (state) => {
+        builder.addCase(getPosts.pending, (state) => {
             state.error = null
             state.loading = true
         })
-        builder.addCase(login.fulfilled, (state, action) => {
+        builder.addCase(getPosts.fulfilled, (state, action) => {
             state.error = null;
             state.loading = false;
-            state.data = action.payload
+            state.items = action.payload.items
+            state.count = action.payload.count
         })
-        builder.addCase(login.rejected, (state, action) => {
+        builder.addCase(getPosts.rejected, (state, action) => {
             state.loading = false
             state.error = action.error
         })
-        builder.addCase(signup.pending, (state) => {
+        builder.addCase(createPost.pending, (state) => {
             state.error = null
             state.loading = true
         })
-        builder.addCase(signup.fulfilled, (state, action) => {
+        builder.addCase(createPost.fulfilled, (state, action) => {
             state.error = null;
             state.loading = false;
-            state.items = action.payload
+            state.items = [{...action.payload, likes: 0},...state.items]
         })
-        builder.addCase(signup.rejected, (state, action) => {
+        builder.addCase(createPost.rejected, (state, action) => {
             state.loading = false
             state.error = action.error
         })

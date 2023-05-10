@@ -33,8 +33,8 @@ export const login = createAsyncThunk<
     { state: RootState }
 >(
     'login',
-    async (payload, thunkAPI) => {
-        const { data } = await Apis.user.login(payload)
+    async (args) => {
+        const { data } = await Apis.user.login(args)
         return data;
     },
 )
@@ -45,8 +45,8 @@ export const signup = createAsyncThunk<
     { state: RootState }
 >(
     'signup',
-    async (payload, thunkAPI) => {
-        const { data } = await Apis.user.signup(payload)
+    async (args) => {
+        const { data } = await Apis.user.signup(args)
         return data;
     },
 )

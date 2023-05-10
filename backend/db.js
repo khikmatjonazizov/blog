@@ -2,7 +2,7 @@ import pgPromise from 'pg-promise'
 
 const dbConfig = {
     user: 'postgres',
-    password: 'zero',
+    password: '13042004',
     host: 'localhost',
     port: 5432,
     database: 'node_postgres'
