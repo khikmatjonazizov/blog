@@ -17,6 +17,7 @@ const createPost = async (req, res) => {
 }
 
 const getPosts = async (req, res) => {
+    const a = 'select p.id, p.title, p.content, p.user_id, COUNT(l.post_id) as count_likes from post as p LEFT JOIN post_like as l ON p.id = l.post_id GROUP BY p.id;'
     const user_id = req.query.user_id;
     const likes = await db.query('SELECT * FROM post_like')
     const likesNum = {}

@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {RootState} from "../redux";
 import {useAppDispatch, useAppSelector} from "../redux/hook";
 import { Table } from "antd";
 import {GetPostsResponseItem} from "../apis/post";
