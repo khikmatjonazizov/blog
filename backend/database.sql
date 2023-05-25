@@ -3,6 +3,7 @@ CREATE TABLE person(
     name VARCHAR(255),
     surname VARCHAR(255),
     username VARCHAR(10),
+    avatar_code INTEGER,
     password VARCHAR(8)
 );
 
@@ -10,14 +11,14 @@ CREATE TABLE post(
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
     content VARCHAR(255),
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES person (id)
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES person (id) ON DELETE CASCADE
 );
 
 CREATE TABLE post_like(
     id SERIAL PRIMARY KEY,
-    user_id INTEGER,
-    post_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES person (id),
-    FOREIGN KEY (post_id) REFERENCES post (id)
+    user_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES person (id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE
 );
