@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 import { Form, Input, Button, Tabs } from 'antd'
 import styled from "styled-components";
 import { login, signup } from "../redux/slice/userSlice";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,9 +15,10 @@ const Wrapper = styled.div`
 export const Login: React.FC = () => {
     const dispatch = useAppDispatch();
     const nav = useNavigate();
+    const { loading } = useAppSelector(state => state.user)
 
     const onSubmit = async (values: any, key: 'login' | 'signup') => {
-        if(key == 'login') {
+        if(key === 'login') {
             const { type } = await dispatch(login({ body: values }))
             if(type === 'login/fulfilled') {
                 nav('/home')
@@ -69,7 +70,7 @@ export const Login: React.FC = () => {
                                 </Form.Item>
 
                                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                                    <Button type="primary" htmlType="submit">
+                                    <Button type="primary" htmlType="submit" loading={loading}>
                                         Submit
                                     </Button>
                                 </Form.Item>
@@ -123,7 +124,7 @@ export const Login: React.FC = () => {
                                 </Form.Item>
 
                                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                                    <Button type="primary" htmlType="submit">
+                                    <Button type="primary" htmlType="submit" loading={loading}>
                                         Submit
                                     </Button>
                                 </Form.Item>

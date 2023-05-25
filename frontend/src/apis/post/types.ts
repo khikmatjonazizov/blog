@@ -14,7 +14,7 @@ export type GetPostsResponseItem = {
     title: string;
     content: string;
     user_id: number;
-    likes: number;
+    count_likes: number;
 }
 
 export type CreatePostProps = {
@@ -30,4 +30,21 @@ export type CreatePostResponse = {
     title: string;
     content: string;
     user_id: number;
+    count_likes: number;
 }
+
+export type LikeAPostResponse = {
+    id: number;
+    post_id: number;
+    user_id: number;
+}
+
+export type LikeAPostProps = {
+    body: {
+        user_id: number;
+        post_id: number;
+    }
+}
+
+export type RemoveLikeProps = LikeAPostProps;
+export type RemoveLikeResponse = LikeAPostResponse;

@@ -4,9 +4,6 @@ import { Login } from "./screens/Login";
 import styled, { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
 import { store } from "./redux";
-import { Home } from "./screens/Home";
-import { NavBar } from "./components";
-import { Cabinet } from "./screens/Cabinet";
 import { HomeRoutes } from "./routes/HomeRoutes";
 
 const GlobalStyles = createGlobalStyle`
@@ -32,7 +29,7 @@ const AppContainer = styled.div`
   height: 100%;
 `
 
-function App() {
+const App = () => {
     return (
         <AppContainer>
             <Provider store={store}>

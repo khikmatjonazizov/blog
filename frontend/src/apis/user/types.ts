@@ -1,3 +1,5 @@
+
+
 export type LoginProps = {
     body: {
         username: string;
@@ -10,7 +12,7 @@ export type LoginResponse = {
     name: string;
     surname: string;
     username: string;
-    password: string;
+    avatar_code: number | null;
 }
 
 export type SignupProps = {
@@ -23,3 +25,33 @@ export type SignupProps = {
 }
 
 export type SignupResponse = LoginResponse;
+
+export type UpdateUserProps = {
+    body: {
+        id: number;
+        name: string;
+        surname: string;
+        avatar_code: number | null;
+    }
+}
+
+export type UpdateUserResponse = {
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    avatar_code: number;
+}
+
+export type GetUsersResponse = {
+    count: number;
+    items: GetUsersResponseItem[];
+}
+
+export type GetUsersResponseItem = {
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    avatar_code: null | number;
+}

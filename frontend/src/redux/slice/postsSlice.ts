@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit";
-import { LoginProps, LoginResponse, SignupProps, SignupResponse } from "../../apis/user";
 import { RootState } from "../index";
 import Apis from '../../apis'
 import {
@@ -7,8 +6,8 @@ import {
     CreatePostResponse,
     GetPostsProps,
     GetPostsResponse,
-    GetPostsResponseItem
-} from "../../apis/post";
+    GetPostsResponseItem, LikeAPostProps, LikeAPostResponse, RemoveLikeProps, RemoveLikeResponse,
+} from '../../apis/post'
 
 type PostsType = {
     loading: boolean;
@@ -48,6 +47,30 @@ export const createPost = createAsyncThunk<
     },
 )
 
+export const likeAPost = createAsyncThunk<
+    LikeAPostResponse,
+    LikeAPostProps,
+    { state: RootState }
+>(
+    'likeAPost',
+    async (args) => {
+        const { data } = await Apis.post.likeAPost(args)
+        return data;
+    },
+)
+
+export const removeLike = createAsyncThunk<
+    RemoveLikeResponse,
+    RemoveLikeProps,
+    { state: RootState }
+>(
+    'removeLike',
+    async (args) => {
+        const { data } = await Apis.post.removeLike(args)
+        return data;
+    },
+)
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -74,10 +97,38 @@ const userSlice = createSlice({
         builder.addCase(createPost.fulfilled, (state, action) => {
             state.error = null;
             state.loading = false;
-            state.items = [{...action.payload, likes: 0},...state.items]
+            state.items = [action.payload,...state.items]
         })
         builder.addCase(createPost.rejected, (state, action) => {
             state.loading = false
+            state.error = action.error
+        })
+        builder.addCase(likeAPost.pending, (state) => {
+            state.error = null
+        })
+        builder.addCase(likeAPost.fulfilled, (state, action) => {
+            state.error = null;
+            state.items = state.items.map(post => {
+                if(post.id === action.payload.post_id) return {...post, count_likes: post.count_likes + 1}
+
+                return {...post}
+            })
+        })
+        builder.addCase(likeAPost.rejected, (state, action) => {
+            state.error = action.error
+        })
+        builder.addCase(removeLike.pending, (state) => {
+            state.error = null
+        })
+        builder.addCase(removeLike.fulfilled, (state, action) => {
+            state.error = null;
+            state.items = state.items.map(post => {
+                if(post.id === action.payload.post_id) return {...post, count_likes: post.count_likes - 1}
+
+                return {...post}
+            })
+        })
+        builder.addCase(removeLike.rejected, (state, action) => {
             state.error = action.error
         })
     }
